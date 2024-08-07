@@ -1,0 +1,16 @@
+{
+  "name": "razabackend",
+  "version": "1.0.0",
+  "description": "a project of an industry level",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "javascript",
+    "backend",
+    "raza"
+  ],
+  "author": "raza",
+  "license": "ISC"
+}
