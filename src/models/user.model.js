@@ -41,7 +41,7 @@ const userrSchema = new Schema(
             type: String,
             required: [true, "Password is required"]
         },
-        refreshedToken: {
+        refreshToken: {
             type: String
         }
     },
@@ -52,7 +52,7 @@ const userrSchema = new Schema(
 
 userrSchema.pre("save", async function (next){
     if(this.isModified("password")) return next() // negative check if password is not modified this code wont work
-    this.password = bcrypt.hash(this.password,10) 
+    this.password = await bcrypt.hash(this.password,10) 
     next()
 }) //middlleware hooks (pre) is use to execute before data is saved
 
@@ -71,7 +71,7 @@ userrSchema.methods.generateAccessToken = function () {
         },
         process.env.ACCESS_TOKEN_SECRET,
         {
-            expiresIn: proccess.env.ACCESS_TOKEN_EXPIRY
+            expiresIn: process.env.ACCESS_TOKEN_EXPIRY
         }
     )
 }
@@ -82,7 +82,7 @@ userrSchema.methods.generateRefreshToken = function () {
         },
         process.env.REFRESH_TOKEN_SECRET,
         {
-            expiresIn: proccess.env.REFRESH_TOKEN_EXPIRY
+            expiresIn: process.env.ACCESS_TOKEN_EXPIRY
         }
     )
 }
