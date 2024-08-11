@@ -20,7 +20,7 @@ const registerUser = asyncHandler( async (req,res)=>{
 
 
     const {fullName, email, username , password} = req.body //getting data from frontendjson response and form data will be store in the req.body
-    console.log("email: ",email,",fullName: ",fullName);
+    // console.log("email: ",email,",fullName: ",fullName);
     
     if (
         [fullName,email,username,password].some((field) => 
@@ -29,8 +29,8 @@ const registerUser = asyncHandler( async (req,res)=>{
         throw new ApiError(400, "All fields are required")
     }
 
-    const existedUser =  User.findOne({
-        $or: [{ email }, { username }]
+    const existedUser = await User.findOne({
+        $or: [{ username }, { email }]
     })
 
     if (existedUser) {
@@ -38,10 +38,17 @@ const registerUser = asyncHandler( async (req,res)=>{
         
     }
 
-    const avatarLocalPath = req.files?.avatar[0]?.path //this will give you localPath. It is like req.body but here we are using middleware multer so it gives you access of files go and chek middleware multer.middleware.js and user.routes.js
+    const avatarLocalPath = req.files?.avatar[0]?.path; //this will give you localPath. It is like req.body but here we are using middleware multer so it gives you access of files go and chek middleware multer.middleware.js and user.routes.js
+    // console.log(req.files)
 
-    //same with coverImage
-    const coverImageLocalPath = req.files?.coverImage[0]?.path
+
+    
+    // const coverImageLocalPath = req.files?.coverImage[0]?.path
+    let coverImageLocalPath;
+    if (req.files && Array.isArray(req.files.coverImage) && req.files.coverImage.length > 0) {
+        coverImageLocalPath = req.files.coverImage[0].path
+    }
+    
 
     if (!avatarLocalPath) {
         throw new ApiError(400, "Avatar file is required")
@@ -51,7 +58,7 @@ const registerUser = asyncHandler( async (req,res)=>{
     const coverImage = await uploadOnCloudinary(coverImageLocalPath)
 
     if (!avatar) {
-        throw new ApiError(400, "Avatar file is required")
+        throw new ApiError(400, "Avatar upload failed")
     
     }
 

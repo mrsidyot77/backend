@@ -1,6 +1,6 @@
 import mongoose, {Schema} from "mongoose";
 import jwt from "jsonwebtoken";
-import bcrypt from 'bcrypt'
+import bcrypt from "bcrypt"
 
 
 const userrSchema = new Schema(
@@ -34,7 +34,7 @@ const userrSchema = new Schema(
             type:String, // cloudnary url
         },
         watchHistory: [{
-            type: Schema.types.ObjectId,
+            type: Schema.Types.ObjectId,
             ref: "Video"
         }],
         password: {
@@ -51,7 +51,7 @@ const userrSchema = new Schema(
 )
 
 userrSchema.pre("save", async function (next){
-    if(this.isModified("password")) return next() // negative check if password is not modified this code wont work
+    if(!this.isModified("password")) return next() // negative check if password is not modified this code wont work
     this.password = await bcrypt.hash(this.password,10) 
     next()
 }) //middlleware hooks (pre) is use to execute before data is saved
