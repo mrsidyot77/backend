@@ -10,7 +10,7 @@ dotenv.config({ path: "./.env" });
 connectDB()
   .then(() => {
     app.listen(process.env.PORT || 8000, () => {
-      console.log(`Servr is running at PORT: ${process.env.PORT}`);
+      console.log(`⚙ Servr is running at PORT: ${process.env.PORT}`);
       app.on("error", (error) => {
         console.log("ERROR: db not able to listen express", error);
       });
