@@ -19,7 +19,7 @@ const generateAccessAndRefereshTokens = async (userId)=>{
     } catch (error) {
         throw new ApiError(500, "Something went wrong while generating access and refersh tokens")
     }
-}
+}//Tested
 
 const registerUser = asyncHandler( async (req,res)=>{
     // THESE ARE ALGORITHMS TO CREATE/REGISTER USER
@@ -100,7 +100,7 @@ const registerUser = asyncHandler( async (req,res)=>{
     return res.status(201).json(
         new ApiResponse(200,createdUser,"User registered successfully.")
     )
-})
+})//Tested
 
 const loginUser = asyncHandler(async (req,res)=>{
     // take the data from frotEnd
@@ -154,7 +154,7 @@ const loginUser = asyncHandler(async (req,res)=>{
     )
     )
 
-})
+})//Tested
 
 const logoutUser = asyncHandler(async  (req,res)=>{
     // clear coockies and refreshToken must be reset
@@ -186,7 +186,7 @@ const logoutUser = asyncHandler(async  (req,res)=>{
     .clearCookie("accessToken",options)
     .clearCookie("refreshToken",options)
     .json(new ApiResponse(200,{},"User Logged out successfuly."))
-})
+})//Tested
 
 const refreshAccessToken = asyncHandler(async (req,res)=>{
     const incomingRefreshToken = req.coockies.refreshToken || req.body.refreshToken
@@ -233,7 +233,7 @@ try {
 } catch (error) {
     throw new ApiError(401,error?.message ||  "Invalid reshres token")
 }
-})
+})//Tested
 
 const changeCurrentPasssword = asyncHandler(async(req,res)=>{
 
@@ -243,7 +243,7 @@ const changeCurrentPasssword = asyncHandler(async(req,res)=>{
         new ApiError (400,"New password and Confirm Password must be match.")
     }
 
-    const user = await user.findById(req.user?._id)//auth midleware we will get the user id
+    const user = await User.findById(req.user?._id)//auth midleware we will get the user id
     const isPasswordCorrect = await user.isPasswodCorrect(oldPassword) //isPasswodCorrect is a method that comes from user model
     
     if (!isPasswordCorrect) {
@@ -256,13 +256,13 @@ const changeCurrentPasssword = asyncHandler(async(req,res)=>{
     return res
     .status(200)
     .json(new ApiResponse(200,{},"Password changed successfully"))
-})
+})//Tested
 
 const getCurrentUser = asyncHandler(async (req,res)=>{
     return res
     .status(200)
-    .json(200, req.user, "Current user fetched successfully.")
-})
+    .json(new ApiResponse(200, req.user, "Current user fetched successfully."))
+})//Tested
 
 const updateAccountDetails = asyncHandler(async(req,res)=>{
     const {fullName,email} = req.body
@@ -287,7 +287,7 @@ const updateAccountDetails = asyncHandler(async(req,res)=>{
     return res
     .status(200)
     .json(new ApiResponse(200,user,"Account details updated successfully"))
-})
+})//Tested
 
 const updateUserAvatar = asyncHandler(async(req,res)=>{
     const avatarLocalPath = req.file?.path
@@ -316,7 +316,7 @@ const updateUserAvatar = asyncHandler(async(req,res)=>{
     .json(
         new ApiResponse (200,user,"Avatar updated successfully.")
     )
-})
+})//Tested
 
 const updateUserCoverImage = asyncHandler(async(req,res)=>{
     const coverImageLocalPath = req.file?.path
@@ -344,7 +344,7 @@ const updateUserCoverImage = asyncHandler(async(req,res)=>{
     return res
     .status(200)
     .json(new ApiResponse (200,user,"Cover Image updated successfully."))
-})
+})//Tested
 
 const getUserChannelProfile = asyncHandler(async(req,res)=>{
     const {username} = req.params;
