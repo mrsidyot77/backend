@@ -417,7 +417,7 @@ const getUserChannelProfile = asyncHandler(async(req,res)=>{
     .json(
     new ApiResponse(200, channel[0], "Channel Information fetched successfully.")
     )
-})
+})//Tested
 
 export {
     registerUser,
